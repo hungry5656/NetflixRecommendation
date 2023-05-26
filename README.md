@@ -11,6 +11,8 @@
 - - start data preprocessing
 
 ## docs folder
+### [use_git](./docs/use_git.md)
+- 
 ### [latex_handbook](./docs/latex_handbook.md)
 - 
 ### [question](./docs/question.md)
