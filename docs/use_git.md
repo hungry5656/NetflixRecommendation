@@ -1,5 +1,22 @@
 # Git Handbook
 
+## Renaming
+### There are several steps to rename the repository
+#### 1. renaming in github settings
+#### 2. renaming local repository
+```console
+$ mv <old-name> <new-name>
+```
+#### 3. check old url
+```bash
+$ git remote -v
+```
+#### 4. update upstream/downstream url
+```console
+$ git remote set-url origin <new-url>
+```
+<br>
+
 ## Something to check before you start any of the steps below
 ### 1. temp file discarding
 - Make sure your repository do not contain auto generated files by other softwares like *.vscode* folder. If you have any folders or files like that, you need to add the full name to [**.gitignore**](.gitignore) file. For example:
@@ -14,7 +31,7 @@
 ## clone the repository
 - This is used when you don't have the repository in your local machine
 ```console
-$ git clone git@github.com:hungry5656/NetflixRecommendation.git
+$ git clone git@github.com:hungry5656/movie-recommender-system.git
 ```
 ## add your code
 ```console
@@ -30,14 +47,35 @@ $ git commit -m "the message for this commit"
 ```
 
 ## push your code to github
+### general push
 ```console
 $ git push
+```
+### push a new branch
+```console
+$ git push --set-upstream <branch-name>
 ```
 
 ## pull updated code from github
 ```console
 $ git pull
 ```
+
 ## stash
+```console
+$ git pull
+```
 
 ## merge
+```console
+$ git pull
+```
+## branch operation
+### create a new branch based on current branch (usually main)
+```console
+$ git branch <new-branch-name>
+```
+### switch to different branch
+```console
+$ git checkout <branch-name>
+```
