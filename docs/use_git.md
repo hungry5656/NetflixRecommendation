@@ -8,7 +8,7 @@
 $ mv <old-name> <new-name>
 ```
 #### 3. check old url
-```bash
+```console
 $ git remote -v
 ```
 #### 4. update upstream/downstream url
@@ -53,22 +53,29 @@ $ git push
 ```
 ### push a new branch
 ```console
-$ git push --set-upstream <branch-name>
+$ git push --set-upstream origin <branch-name>
 ```
 
-## pull updated code from github
+## pull/fetch updated code from github
+### pull code
+- 
 ```console
 $ git pull
+```
+### fetch code
+- 
+```console
+$ git fetch
 ```
 
 ## stash
 ```console
-$ git pull
+$ git stash
 ```
 
 ## merge
 ```console
-$ git pull
+$ git merge
 ```
 ## branch operation
 ### create a new branch based on current branch (usually main)
