@@ -31,6 +31,8 @@
 - jupyter notebook for model_v1
 ### [load_model_testing.ipynb](./Notebook/load_model_testing.ipynb)
 - jupyter notebook for loading model from .h5 file
+### [data_process.ipynb](./Notebook/data_process.ipynb)
+- jupyter notebook for data processing and data slicing
 
 ## report folder
 ### [report.tex](./report/report.tex)
