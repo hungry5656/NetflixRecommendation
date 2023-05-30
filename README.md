@@ -1,5 +1,5 @@
 # Movie Recommendation System README
-- Contributer:
+- **Contributer**:
 - - 
 - - 
 - - 
