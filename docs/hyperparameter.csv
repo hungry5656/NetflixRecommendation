@@ -1,0 +1,2 @@
+embedding_dim, L1_num, L2_num, L3_num, act_func,RMSE,MAE,accuracy_top_1, accuracy_top_5, accuracy_top_10
+32, 256, 128, 32, 'relu',

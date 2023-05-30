@@ -17,13 +17,13 @@
 - training task: minimize the sum of squared errors
 
 ## Retrival model
-- useful url: 
+- useful url: https://www.tensorflow.org/recommenders/examples/basic_retrieval
 - using the api from tfrs: tfrs.metrics.FactorizedTopK, tfrs.tasks.Retrieval
 - Implicit
 - producing the 
 
 ## Rating model
-- useful url:
+- useful url: https://www.tensorflow.org/recommenders/examples/basic_ranking
 - using the api from tfrs: tfrs.tasks.ranking
 - Explicit
 - 3 layer neural network
