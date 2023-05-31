@@ -1,0 +1,2 @@
+model_checkpoint_path: "MRS_v2_e64_20_ep5.tf"
+all_model_checkpoint_paths: "MRS_v2_e64_20_ep5.tf"
