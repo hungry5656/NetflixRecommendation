@@ -1,9 +1,6 @@
 # Movie Recommendation System README
-- **Contributer**:
-- - 
-- - 
-- - 
-- - 
+
+![Movie_Recommendation_Poster](./image/Movie_Recommendation_Poster.svg)
 
 ## Timeline
 - May 18:
@@ -42,3 +39,9 @@
 -  contains trained model
 ### [MRS_v1.h5](./model/MRS_v1.h5)
 - model_v1
+
+## **Contributer**:
+- - *Sizhuo Sun*
+- - *Wilson Lu*
+- - *Jashanpreet Singh*
+- - *Andrew Lam*
