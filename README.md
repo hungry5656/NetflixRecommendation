@@ -2,11 +2,6 @@
 
 ![Movie_Recommendation_Poster](./image/Movie_Recommendation_Poster.svg)
 
-## Timeline
-- May 18:
-- - create repository, create necessary files
-- - start data preprocessing
-
 ## docs folder
 ### [use_git](./docs/use_git.md)
 - git command manual
@@ -27,9 +22,15 @@
 ### [test_RS.ipynb](./Notebook/test_RS.ipynb)
 - jupyter notebook for model_v1
 ### [load_model_testing.ipynb](./Notebook/load_model_testing.ipynb)
-- jupyter notebook for loading model from .h5 file
+- jupyter notebook for loading model from .h5/.tf file
 ### [data_process.ipynb](./Notebook/data_process.ipynb)
 - jupyter notebook for data processing and data slicing
+
+## deploy-ml-proj
+### [app.py](./deploy-ml-proj/app.py)
+- the main backend code to start the web service
+### [templates](./deploy-ml-proj/templates/)
+- folder to store html files
 
 ## report folder
 ### [report.tex](./report/report.tex)
@@ -39,6 +40,8 @@
 -  contains trained model
 ### [MRS_v1.h5](./model/MRS_v1.h5)
 - model_v1
+### [MRS_v2.h5](./model/MRS_v2.h5)
+- model_v2
 
 ## **Contributer**:
 - - *Sizhuo Sun*
