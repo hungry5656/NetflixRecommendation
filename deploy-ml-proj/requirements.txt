@@ -1,3 +1,7 @@
 tensorflow
 tensorflow-recommender
 flask
+pandas
+numpy
+sklearn
+matplotlib

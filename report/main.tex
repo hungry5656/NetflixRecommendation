@@ -1,0 +1,162 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[RO,LE]{Movie Recommendation System}
+\usepackage[document]{ragged2e}
+
+% \fancyfoot{}
+% \fancyfoot[LE,RO]{Page:\thepage}
+
+
+\begin{document}
+
+\input{title}
+
+\large
+
+    \begin{flushleft}
+        \textbf{\LARGE Introduction and Background}
+    \end{flushleft}
+
+\vspace{0.3cm}
+\justifying
+Movies are one of the largest forms of consumed media in modern times. They serve to provide entertainment and comfort for people who need to kick back and relax from their usually busy schedule. It’s because of this there is a large demand for newer and high quality movies for people to watch. To combat this problem there are a few solutions that could be considered. For one a consumer could just continue to watch random movies without considering if the movie is for them or not, leaving them with a more than likely lesser experience as opposed to watching a movie that was specifically identified with what the person liked. Being able to figure out and recommend movies that a person would like is paramount to keeping viewer engagement while also keeping them happy and comfortable.
+
+\vspace{0.3cm}
+
+That’s where machine learning models come in. They are able to analyze users and give them recommendations based on their own preferences. Not only can they give recommendations based on the user but also movies that other users have recommended. There is not much room for data to skew or have complex nuances, so error will not be very high and conversely accuracy will be high.
+
+\vspace{0.3cm}
+
+There are already many instances of these models being put to work in the real world. Although there are not many fields where these movie recommendation systems can be applied, the general idea of a recommendation system can be almost universal. For example:
+
+\vspace{0.3cm}
+
+    \begin{itemize}
+        \item Netflix:
+        \begin{itemize}
+            \item Netflix utilizes a recommendation systems that starts with the users base impressions and preferences and recommends based on those preferences. As the user watches more movies/shows, those preferences are slowly changed to recommend movies/shows based on what they are watching and not just based on the users preferences
+        \end{itemize}
+    \end{itemize}
+	
+
+\vspace{0.3cm}
+
+This is how it is for most Movie/Show based platforms and it also extends to video sharing platforms.
+
+\vspace{0.3cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Literature review}
+    \end{flushleft}
+
+\vspace{0.3cm}
+
+Machine Learning has a big presence when it comes to recommendation systems, especially for areas such as movies in the entertainment industry. Research is constantly being done on how to predict an accurate recommendation, as there often is no fine classification or answer to a good recommendation. Below is an example of previous movie recommendation model systems that have been implemented using a variety of techniques.
+\vspace{0.3cm}
+
+A group of computer scientists (M. Chenna Keshava, P. Narendra Reddy, S. Srinivasulu, and B. Dinesh Naik) did research into which model that was used would produce the best results in terms of movie recommendations. The dataset that they used was the Netflix Prize data which was taken from Kaggle, and the models that were tested consisted of XGBoost, Surprise BaselineOnly, Surprise KNNBaseline, Matrix Factorization SVD, and Matrix Factorization SVDpp. Their conclusion showed that their best model for movie recommendations was SVDpp with a test RMSE of 1.0675, which was the lowest among the other four models that were used. The authors also noted that they could have gained better results by tuning hyperparameters or by using the full dataset.
+
+\vspace{0.3cm}
+
+In a different study, Raja Marappan and S. Bhaskaran presented a few approaches to studying the accuracy of other models, such as content-based, collaborative-based, and cosine similarity approach to recommending movies. With their implementations of their model, they concluded that cosine similarity gave the best results when assessing the speed and accuracy compared to other models. 
+\vspace{0.3cm}
+The different approaches to choosing a model, along with the RMSE reporting, were a good reference point for how we constructed and evaluated our model.
+
+\vspace{0.3cm}
+\vspace{0.5cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Dataset Description and Exploratory Data Analysis of the data set}
+    \end{flushleft}
+
+
+The Movies Dataset is a comprehensive collection of metadata and ratings for over 45,000 movies. It provides valuable information for various analyses and modeling tasks. The dataset consists of several files, including \texttt{movies\_metadata.csv}, \texttt{keywords.csv}, \texttt{credits.csv}, \texttt{links.csv}, \texttt{links\_small.csv}, and \texttt{ratings\_small.csv}. In our model, we focused on \texttt{movies\_metadata.csv} and \texttt{ratings\_small.csv}.
+
+\vspace{0.3cm}
+
+\texttt{movies\_metadata.csv} contains features such as movie titles, release dates, genres, production companies, languages, budget, revenue, and \texttt{movieId}, among others. Each row represents a movie, and the columns provide detailed information about the movie's characteristics.
+
+\vspace{0.3cm}
+
+\texttt{ratings\_small.csv} consists of 45,000 ratings on a scale of 1-5, given by 671 unique users. These ratings were obtained from the official GroupLens website. The ratings dataset includes the \texttt{movieId} but does not include the movie title, which is why we need the metadata dataset for that information. This subset of data is useful for exploring user ratings and building recommendation systems.
+
+\vspace{0.3cm}
+
+To prepare the data for analysis, we dropped all columns from the \texttt{movies\_metadata} dataset except for the \texttt{movieID}. We kept the \texttt{ratings\_small.csv} dataset as is. Then, we merged the two datasets based on the \texttt{movieID} column. We removed any \texttt{NaN} values from the merged dataset. The final result is a cleaned dataset that looks like the following: 
+
+\vspace{0.3cm}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{image/ratings.png}
+  \caption{Distribution of ratings}
+\end{figure}
+
+\vspace{0.3cm}
+
+The histogram plot displays the distribution of user IDs across 500 bins, providing insights into the spread of user IDs in the dataset. By examining the histogram, we can assess whether the user IDs are evenly distributed or if there are any noticeable gaps in the distribution. Each bar's height in the histogram represents the frequency or count of user IDs falling within a specific range or bin.
+
+This histogram allows us to identify outliers or peculiar patterns in the distribution of user IDs. Outliers are data points that significantly deviate from the general pattern, and they can be identified as bars that are notably higher or lower than the surrounding bars. In this particular dataset, we observe outliers where certain movies have received more than 800 ratings.
+
+Analyzing the histogram aids in understanding the overall distribution of user IDs and provides insights into any exceptional cases or irregularities in the dataset.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.9\textwidth]{image/barplot.png}
+  \caption{Barplot}
+\end{figure}
+
+The bar plot above specifically examines the ratings distribution for the movie \textbf{"Rocky III"}. It offers a visual representation of how the ratings are spread across various rating values for this particular movie. From the plot, it is evident that a significant portion of users gave it ratings of 3 and 4. The code in the notebook can be modified to investigate the distribution for any other movie in the dataset. By altering the movie name in the code, we can generate a tailored histogram plot that focuses on the ratings distribution for the selected movie. This flexibility allows for the exploration of specific movies within the dataset and provides insights into how users rate them.
+
+\vspace{2.5cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Proposed Methodology}
+    \end{flushleft}
+
+After we did the data analysis for our dataset, there is a big problem for us to start the first step as all of us have little knowledge about recommendation system. We found a crash course about recommendation system at google developer website. By checking that crash course, we choose collaborative filter as the main method for our model as it is more suitable to find the relation between history data and connection between different users.
+
+\vspace{0.3cm}
+
+The main method we used is a Hybrid model which includes a retrieval model and a ranking model. A retrieval model is used as a binary decision model to filter the movies interested by user, and we use a basic two tower model here with a user embedding and movie embedding. We found a python library TensorFlow-recommender that have API specifically for retrieval and ranking model. As for how the data is represented in our model, we found an important method called matrix factorization that is widely used in recommendation system. As we learned from a paper about matrix factorization by Yehuda Koren, Robert Bell and Chris Volinsky, the input can be two embedding vector for user and movie with a dimension number n. The benefit for matrix factorization is that the product of user embedding vector and transpose of movie embedding is the feedback matrix, which can also be called as index matrix. This matrix have all the information between one user and movie so that we can extract those information to recommend movies. Embedding number defines the hidden attributes used by model to categorize different movies.
+
+\vspace{0.3cm}
+
+A ranking model is used to predict the rating for an unseen movie from a specific model. We used a DNN here to focus on predicting the rating for an unseen movie. One big problem to consider here is the hyperparameter tuning for this DNN as there are many combination of hyperparameters. The loss function is the combination of both loss information from retrieval model and ranking model. We use MSE as the loss function for ranking model and the default loss function for retrieval model. We add two weight parameter for ranking loss and retrieval loss so that we can evaluate how each model is performed individually. Here is a graph that shows how our model is structured.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{image/model_details.png}
+    \caption{model details}
+  \end{figure}
+
+\vspace{0.3cm}
+
+
+
+\vspace{2.5cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Software Implementation}
+    \end{flushleft}
+
+\vspace{0.3cm}
+
+Upon creating our collaborative-based recommendations model, we implemented a Flask website to deploy our system. Given an input of either a specific movie or a user id, our model will return a list of movies. 
+
+\vspace{0.3cm}
+
+Our UI contains a simple implementation where the user is given the option of either entering a user id or the name of a movie. Based on what the user inputs, our model will go through a collaborative filtering process based on user history and rating and return a list of 5 movie recommendations the user would be most interested in.
+
+\vspace{0.3cm}
+
+For our future implementation, we want to combine collaborative-based and content-based models to gain even more accurate results. We might implement this by having users enter their user id and adding another area where they can list their favorite directors, actors, or genres and return a list of that result. Another feature we could implement is having the user decide how many recommendations they want as; currently, the user gets a set of 5 movie recommendations with each input.
+
+
+\end{document}
