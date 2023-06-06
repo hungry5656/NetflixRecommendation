@@ -11,8 +11,10 @@ A movie recommendation system project based on tensorflow-recommender library
 https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset
 
 ## How to use the demo
-> **⚠️ Important Notification**: \
-> Our live demo need to train the model (use num_epoch = 1 to save time). A GPU accelerator is preferred for this model as our hyperparameter is big. CPU is supported but it takes 10 times longer than a GPU accelerator.
+> ### **⚠️ Important Notification**:
+> Our live demo need to train the model (use num_epoch = 1 to save time). A GPU accelerator is preferred for this model as our hyperparameter is big. CPU is supported but it takes 10 times longer than a GPU accelerator. \
+>
+> We only support user id given in the dataset, as well as the movie-title in the dataset
 ### Firstly, cd into the folder deploy-ml-proj
 ```console
 $ cd deploy-ml-proj
@@ -83,8 +85,18 @@ $ python3 app.py
 │   ├── MRS_v3_sgd_e64_12.h5
 │   └── checkpoint
 ├── report
-│   ├── img
-│   └── report.tex
+│   ├── image
+│   │   ├── barplot.png
+│   │   ├── model_details.png
+│   │   ├── mse.png
+│   │   ├── ratings.png
+│   │   └── top100accuracy.png
+│   ├── main.aux
+│   ├── main.log
+│   ├── main.pdf
+│   ├── main.synctex.gz
+│   ├── main.tex
+│   └── title.tex
 └── src
     └── main.py
 ```
