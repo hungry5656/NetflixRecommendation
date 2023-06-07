@@ -1,9 +1,14 @@
-\documentclass{article}
+\documentclass[11pt]{article}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
 \usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{url}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyhead[RO,LE]{Movie Recommendation System}
@@ -68,7 +73,6 @@ In a different study, Raja Marappan and S. Bhaskaran presented a few approaches 
 \vspace{0.3cm}
 The different approaches to choosing a model, along with the RMSE reporting, were a good reference point for how we constructed and evaluated our model.
 
-\vspace{0.3cm}
 \vspace{0.5cm}
 
     \begin{flushleft}
@@ -114,7 +118,7 @@ Analyzing the histogram aids in understanding the overall distribution of user I
 
 The bar plot above specifically examines the ratings distribution for the movie \textbf{"Rocky III"}. It offers a visual representation of how the ratings are spread across various rating values for this particular movie. From the plot, it is evident that a significant portion of users gave it ratings of 3 and 4. The code in the notebook can be modified to investigate the distribution for any other movie in the dataset. By altering the movie name in the code, we can generate a tailored histogram plot that focuses on the ratings distribution for the selected movie. This flexibility allows for the exploration of specific movies within the dataset and provides insights into how users rate them.
 
-\vspace{2.5cm}
+\vspace{0.5cm}
 
     \begin{flushleft}
         \textbf{\LARGE Proposed Methodology}
@@ -136,11 +140,75 @@ A ranking model is used to predict the rating for an unseen movie from a specifi
     \caption{model details}
   \end{figure}
 
+\vspace{0.5cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Experimental Result}
+    \end{flushleft}
+
+We have two parameters that can determine the portion between retrieval model and ranking model. We firstly train the two sub model individually to compare with how each model performed and what is been affected by each model. The method we use to evaluate our model is by using RMSE and MAE that is explained in chapter Recommender Systems Handbook: Evaluating recommendation systems written by Guy Shani and Asela Gunawardana. As there are limited option to evaluate recommender model, we found there is a built-in method used in tensorflow-recommender library called top\_k\_categorical\_accuracy. This value represents the percentage of the movies recommended by the system is in the top list for user. With the little attributes about movies we used and the naïve feature of recommender system, it is hard to get a close to one accuracy.
+
 \vspace{0.3cm}
 
+Since our model is not a traditional classification model, it is hard to implement grid search method to find the optimal set for hyperparameters. We manually tested possible values for each hyperparameters. We found out that learning rate being 0.2 is the best as higher value leads to an overfitting and lower value trains slowly. We tested different set of neural networks inside ranking model and get the combination of 256 * 128 * 32 has the balance between performance and training time. We found out that the relu activation function suits the best as our model only dealing with positive number from zero to one. The most important hyperparameter of our model is embedding dimension as it determines how many of different hidden attributes is seen by model. As we tested different numbers of embedding, larger number means a higher accuracy, but the drawbacks are potential overfitting and longer time to train a model. Due to the limitation of our hardware specification and time, we end up chose 64 as the number of embedding dimensions.
 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{image/rmse.png}
+        \caption{Root Mean Squared Error}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{image/mae.png}
+        \caption{Mean Absolute Error}
+    \end{subfigure}
+    \caption{Plots for different metrics and number of epochs}
+  \end{figure}
 
-\vspace{2.5cm}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{image/top5accuracy.png}
+        \caption{top 5 accuracy}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{image/top100accuracy.png}
+        \caption{top 100 accuracy}
+    \end{subfigure}
+    \caption{Plots for different metrics and number of epochs}
+  \end{figure}
+
+As shown in the two plots above, the improvement of root mean square error and mean absolute error is limited due to the small size of dataset. However, the accuracy has a big improvement for both top 5 selection and top 10 selection. The two plots for accuracy look like log function and rate to converge slows down as the number of epochs goes up. The table below shows the performance on the unseen data for the three types of model defined by how many weights each sub model has. The testing dataset and training dataset are split by the general dataset. The portion of training dataset and testing dataset is 80:20. We are using the evaluation API from TensorFlow to test our model in the testing set. The value we got from testing dataset is much lower than the training dataset as the nature of unsupervised learning. 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|} 
+\hline
+Metrics                         & Mixed Model & retrieval Model & Ranking Model \\ 
+\hline
+root\_mean\_squared\_error      & 3.569873    & 3.866569        & 3.754806      \\ 
+\hline
+mean\_absolute\_error           & 3.413906    & 3.727047        & 3.613183      \\ 
+\hline
+top\_1\_categorical\_accuracy   & 0.000111    & 0.000000        & 0.000000      \\ 
+\hline
+top\_5\_categorical\_accuracy   & 0.002556    & 0.002556        & 0.000333      \\ 
+\hline
+top\_10\_categorical\_accuracy  & 0.006224    & 0.005446        & 0.000556      \\ 
+\hline
+top\_50\_categorical\_accuracy  & 0.027673    & 0.025006        & 0.000889      \\ 
+\hline
+top\_100\_categorical\_accuracy & 0.054679    & 0.050567        & 0.001889      \\
+\hline
+\end{tabular}
+\caption{Testing results for Different sets of weights}
+\end{table}
+
+By comparing the data from the table above, the retrieval model has a higher top k accuracy whereas ranking model have a lower root mean squared error and mean absolute error. This means that retrieval model is good at selecting the related movies, and the ranking model is good at predicting the correct ratings, which follows the initial description of these two models. The mix of these two models combine the benefit from both. As shown in the table, the top k accuracy and the RMSE as well as MAE tend to be higher than either one of the model individually. 
+
+\vspace{1cm}
 
     \begin{flushleft}
         \textbf{\LARGE Software Implementation}
@@ -158,5 +226,67 @@ Our UI contains a simple implementation where the user is given the option of ei
 
 For our future implementation, we want to combine collaborative-based and content-based models to gain even more accurate results. We might implement this by having users enter their user id and adding another area where they can list their favorite directors, actors, or genres and return a list of that result. Another feature we could implement is having the user decide how many recommendations they want as; currently, the user gets a set of 5 movie recommendations with each input.
 
+\vspace{1cm}
+
+    \begin{flushleft}
+        \textbf{\LARGE Conclusion}
+    \end{flushleft}
+
+In conclusion, movie recommendation systems play a crucial role in providing personalized and engaging movie suggestions to users based on their preferences. In this field, machine learning algorithms like collaborative filtering have been widely applied, enabling services like Netflix to provide consumers with personalized recommendations. As shown by the literature review and exploratory data analysis described, the study and use of movie recommendation systems have shown promising outcomes. There is still opportunity for advancement and additional application, though.
+
+\vspace{0.3cm}
+
+One potential area for improvement is the incorporation of hybrid models that combine collaborative filtering with content-based approaches. By considering both user preferences and movie attributes such as genres, directors, and actors, the recommendations can be more comprehensive and accurate. Additionally, utilizing deep learning techniques like neural networks could enhance the ranking and prediction models, providing better insights into users' movie preferences.
+
+\vspace{0.3cm}
+
+The introduction of hybrid models, which fuse collaborative filtering with content-based methods, is one possible avenue for improvement. The recommendations can be more thorough and precise if they take into account both user preferences and movie characteristics like genres, directors, and actors. The rating and prediction models may also be improved by using deep learning techniques like neural networks, which would provide customers more insights into their movie tastes. Additionally, increasing the dataset and adding more varied movie information, such user reviews, could increase the precision of the recommendations. The recommendation algorithm could be improved by including sentiment analysis methods to comprehend users' feelings toward movies.
+
+\vspace{0.3cm}
+
+In summary, by integrating hybrid models, leveraging advanced machine learning techniques, expanding the dataset, and incorporating real-time feedback, we can enhance the accuracy, personalization, and user satisfaction of movie recommendations in the future.
+
+\pagebreak
+
+\begin{center}
+    \textbf{\LARGE References}
+\end{center}
+\begin{flushleft}
+
+\textbf{\large Dataset:}
+
+\vspace{0.3cm}
+\url{https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset}
+
+\vspace{0.3cm}
+\textbf{\large Recommendation System:}
+
+\vspace{0.3cm}
+\url{https://developers.google.com/machine-learning/recommendation}
+
+\vspace{0.3cm}
+\textbf{\large Literature review:}
+
+\vspace{0.3cm}
+Keshava, M. C., Srinivasulu, S., Reddy, P. N., \& Naik, B. D. (2020). Machine learning model for movie recommendation system. Int. J. Eng. Res. Tech, 9, 800-801.
+
+\vspace{0.3cm}
+
+Marappan, R., \& Bhaskaran, S. (2022). Movie recommendation system modeling using machine learning. International Journal of Mathematical, Engineering, Biological and Applied Computing, 12-16.
+
+\vspace{0.3cm}
+\textbf{\large Proposed Methodology:}
+
+\vspace{0.3cm}
+Koren, Y., Bell, R., \& Volinsky, C. (2009). Matrix factorization techniques for recommender systems. Computer, 42(8), 30-37.
+
+\vspace{0.3cm}
+\textbf{\large Experimental Result:}
+
+\vspace{0.3cm}
+Shani, G., \& Gunawardana, A. (2011). Evaluating recommendation systems. Recommender Systems Handbook, Ricci, F, Rokach, L, Shapira, B, and Kantor, PB, ed, 257-297.
+
+\end{flushleft}
+    
 
 \end{document}

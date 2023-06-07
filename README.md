@@ -12,7 +12,7 @@ https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset
 
 ## How to use the demo
 > ### **⚠️ Important Notification**:
-> Our live demo need to train the model (use num_epoch = 1 to save time). A GPU accelerator is preferred for this model as our hyperparameter is big. CPU is supported but it takes 10 times longer than a GPU accelerator. \
+> Our live demo need to train the model (use num_epoch = 1 to save time). A GPU accelerator is preferred for this model as our hyperparameter is big. CPU is supported but it takes 10 times longer than a GPU accelerator.
 >
 > We only support user id given in the dataset, as well as the movie-title in the dataset
 ### Firstly, cd into the folder deploy-ml-proj
@@ -45,6 +45,7 @@ $ python3 app.py
 │   ├── main-dim64-sigmoid-sgd.ipynb
 │   ├── main-dim64.ipynb
 │   ├── main.ipynb
+│   ├── model_comp.ipynb
 │   └── test_RS.ipynb
 ├── README.md
 ├── dataset
@@ -87,10 +88,13 @@ $ python3 app.py
 ├── report
 │   ├── image
 │   │   ├── barplot.png
+│   │   ├── mae.png
 │   │   ├── model_details.png
 │   │   ├── mse.png
 │   │   ├── ratings.png
-│   │   └── top100accuracy.png
+│   │   ├── rmse.png
+│   │   ├── top100accuracy.png
+│   │   └── top5accuracy.png
 │   ├── main.aux
 │   ├── main.log
 │   ├── main.pdf
@@ -100,6 +104,41 @@ $ python3 app.py
 └── src
     └── main.py
 ```
+
+## Roadmap
+### Week 3
+
+- Started Researching Model
+- Started searching for a dataset for our model
+
+### Week 4
+
+- Selected Model
+- Selected Data set
+- Started cleaning data set and testing for useful variables
+
+### Week 5
+
+- Finished cleaning and weighing variables for our dataset
+- Started work on implementing the model
+
+### Week 6
+
+- Started creating graphs and analyzing Data for our dataset
+- Tested prototype models
+
+### Week 7
+
+- Further testing of hyperparameters and the model itself
+- Started graphing MSE and figuring out how to minimize it for our model
+
+### Week 8
+
+- Finished Model
+- Started working and finished website for demo
+
+### Week 9:
+- Finished project and presented.
 
 ## docs folder
 ### [use_git](./docs/use_git.md)
